@@ -1,0 +1,606 @@
+﻿
+@section otherstyle{<link />    }
+<h3>进货管理</h3>
+<!--查询-->
+<div class="row">
+    <div style="padding-left:0;" class="col-md-10 ">
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <label>选择供应商：</label>
+                <select id="providerid-search" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label>选择商品：</label>
+                <select id="goodsid-search" class="form-control">
+                    <option value="" disabled="" selected="" hidden="">选择商品</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>选择开始时间：</label>
+                <!--指定 date标记-->
+                <div class='input-group date' id='datetimepicker1'>
+                    <input id="starttime" type='Date' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>选择结束时间：</label>
+                <!--指定 date标记-->
+                <div class='input-group date' id='datetimepicker2'>
+                    <input id="endtime" type='Date' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+
+            <button type="button" id="btn-search" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-1">
+        <button style="margin: 10px 0;" id="btnShowModal" data-toggle="modal" data-target="#myModal" class="btn btn-default">商品进货</button>
+    </div>
+</div>
+<!--查询-->
+<!--表格-->
+<h2 class="sub-header">Section title <button id="export" class="btn btn-default">导出数据</button></h2>
+<div class="table-responsive">
+    <table id="exportTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>进货单号</th>
+                <th>供应商公司名称</th>
+                <th>商品名称</th>
+                <th>供应商联系人</th>
+                <th>操作人员</th>
+                <th>进货数量</th>
+                <th>商品型号</th>
+                <th>进货单价</th>
+                <th>支付类型</th>
+                <th>进货时间</th>
+                <th>产地</th>
+                <th>商品备注</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="list-tbody">
+            <!--- 数据遍历  -->
+        </tbody>
+    </table>
+</div>
+<!--表格-->
+<!---分页 start-->
+<div class="row">
+    <div class="col-md-4 col-md-offset-8">
+        <nav aria-label="Page navigation">
+            <ul id="pagination" class="pagination"></ul>
+        </nav>
+    </div>
+</div>
+<!---分页 end-->
+<!-- Modal start -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">商品进货</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="providerid">供应商公司全称</label>
+                            <select id="providerid" class="form-control">
+                                <option value="" disabled="" selected="" hidden="">请选择进货</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="goodsid">商品全称</label>
+                            <select id="goodsid" class="form-control">
+                                <option value="" disabled="" selected="" hidden="">请选择商品</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="number">进货数量</label>
+                            <input type="text" id="number" class="form-control" placeholder="商品产地">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inportprice">进货价格</label>
+                            <div class="input-group">
+                                <input type="text" id="inportprice" class="form-control" placeholder="进货价格" aria-describedby="basic-addon2">
+                                <span class="input-group-addon" id="basic-addon2">元</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="price">支付类型</label>
+                        <label class="checkbox-inline">
+                            <input type="radio" name="paytype" id="paytype1"
+                                   value="微信" checked> 微信
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" name="paytype" id="paytype2"
+                                   value="支付宝"> 支付宝
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" name="paytype" id="paytype3"
+                                   value="银联"> 银联
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="operateperson">商品备注</label>
+                    </div>
+                    <div class="col-md-10">
+                        <textarea id="operateperson" class="form-control" rows="15" cols="10" placeholder="请输入备注" style="height:106px;"></textarea>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/FileSaver.js"></script>
+<script>
+    //存储列表数据
+    var $customerList = [];
+
+    //被选中的信息id
+    var id;
+
+    //存储选择框中的项
+    var option = -1;
+
+    //存储搜索内容
+    var value = "";
+
+    var Index = 0;
+
+
+    //[modal] 添加进货ajax||修改进货的ajax
+    $(".btn-primary").click(function () {
+
+        if ($(this).text() == "提交") {
+            customerAdd();
+        } else {
+            customerUpdate();
+        }
+
+    })
+
+
+    //[table] 修改按钮  模态框出现
+    $("#list-tbody").on("click", ".btn-success", function () {
+        id = $(this).attr("data-id");
+        customerInfo();
+    })
+
+    //[table] 删除按钮  确定框出现
+    $("#list-tbody").on("click", ".btn-danger", function () {
+        id = $(this).attr("data-id");
+        if (confirm("您确定要删除吗？")) {
+            customerDelete();
+        }
+        return false;
+    })
+
+    //[pagination] 分页按钮 获取数据
+    $("#pagination").on("click", "li", function () {
+        //console.log($(this).index());
+        Index = $(this).attr("data-pageIndex");
+        customerSearch(-1, "", "", $(this).attr("data-pageIndex"));
+    })
+
+    //[navbar] 搜索按钮
+    $("#btn-search").click(function () {
+        option = $("#goodsid-search option:selected").val();  //获取选中的项
+
+        console.log(option);
+        if (option == null) {
+            alert("您还没有选择商品名称");
+
+        }
+        customerSearch(option, $("#starttime").val(), $("#endtime").val(), Index);
+    })
+
+
+    //[select] 选择框
+    $("#providerid").on("change", function () {
+        getGoodsChildrenList($(this).val());
+    })
+
+    //[select] 选择框
+    $("#providerid-search").on("change", function () {
+        getInportChildrenList($(this).val());
+    })
+
+
+    //[alert] 提示框
+    function showTips(tips, height, time, color) {
+        var windowWidth = document.documentElement.clientWidth;
+        //当页面不存在时 创建
+        if (!document.getElementById("tipsClass")) {
+            var tipsDiv = '<div id="tipsClass"></div>';
+            console.log("执行");
+            $('body').append(tipsDiv);
+        }
+        $('div#tipsClass').css({
+            'top': 0 + 'px',
+            'left': (windowWidth / 2) - (tips.length * 13 / 2) + 'px',
+            'position': 'absolute',
+            'padding': '15px 25px',
+            'background': color,//#8FBC8F
+            'font-size': 12 + 'px',
+            'margin': '0 auto',
+            'text-align': 'center',
+            'width': 'auto',
+            'color': '#fff',
+            'opacity': '0.8',
+            'z-index': '9999',
+        }).text(tips).show().animate({ 'top': height }, 200);
+        setTimeout(function () { $('div#tipsClass').fadeOut(); }, (time * 800));
+    }
+
+    //[table]  渲染表格进货信息
+    function listRendering() {
+        var listTemplate;
+        //清空数据
+        $(".table-responsive tbody").html('');
+
+        //判断表格是否用数据
+        if ($customerList.length == 0) {
+            listTemplate = `<tr>
+        <td style="text-align:center;line-height:100px" colspan="10">没有数据</td>
+        </tr>`;
+            $(".table-responsive tbody").append(listTemplate);
+            return;
+        }
+
+        console.log($customerList);
+        $.each($customerList, function (index, data) {
+            console.log(1);
+            listTemplate = `<tr>
+            <td>${data.id}</td>
+            <td>${data.providername}</td>
+            <td>${data.goodsname}</td>
+            <td>${data.providerperson}</td>
+            <td>${data.name}</td>
+            <td>${data.number}</td>
+            <td>${data.size}</td>
+            <td>${data.inportprice}</td>
+            <td>${data.paytype}</td>
+            <td>${new Date(parseInt(data.inporttime.substr(6, 13))).toLocaleDateString()}</td>
+            <td>${data.produceplace}</td>
+            <td>${data.operateperson}</td>
+            <td>
+                <a data-id=${data.id} class="btn btn-success btn-xs">修改</a>
+                <a data-id=${data.id} class="btn btn-info btn-xs">打印</a>
+            </td>
+        </tr>`;
+            $(".table-responsive tbody").append(listTemplate);
+        })
+
+    }
+
+    //[pagination] 分页渲染
+    function pagination(pageIndex, pageCount) {
+        $(".pagination").html('');
+        if (pageCount == 1) {
+            $(".pagination").append(``);
+            return;
+        }
+        var start = pageIndex - 2;//计算起始位置，要求页面上显示4个数字页 1~5
+        if (start < 1) {
+            start = 1;
+        }
+        var end = start + 3;
+
+        if (end > pageCount) {
+            end = pageCount;
+            start = end - 3 < 1 ? 1 : end - 3;
+        }
+
+        if (pageIndex > 1) {
+            console.log("执行");
+            $(".pagination").append(`<li data-pageIndex=${pageIndex - 1}><a   aria-label="Previous"><span aria-hidden="true">&laquo;</span>
+            </a></li>`);
+        }
+        //循环遍历页数
+        for (var i = start; i <= end; i++) {
+            if (i == pageIndex) {
+                //当前页
+                $(".pagination").append(`<li class="active" data-pageIndex=${i}><a >${i}</a></li>`);
+            }
+            else {
+                $(".pagination").append(`<li data-pageIndex=${i}><a >${i}</a></li>`);
+
+
+            }
+        }
+        if (pageIndex < pageCount) {
+            $(".pagination").append(`<li data-pageIndex=${pageIndex + 1}><a aria-label="Next"><span aria-hidden="true">&raquo;</span>
+            </a></li>`);
+        }
+    }
+
+    //[ajax] /Customer/Add 进货添加
+    function customerAdd() {
+        console.log($("#providerid option:selected").val(),
+            $("#number").val(),
+            $("#inportprice").val(),
+            $("#goodsid option:selected").val(),
+            $("#operateperson").val(),
+            $("input[type='radio']:checked").val())
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/Inport/Add",
+            dataType: "json",
+            data: {
+                providerid: $("#providerid option:selected").val(),
+                number: $("#number").val(),
+                inportprice: $("#inportprice").val(),
+                goodsid: $("#goodsid option:selected").val(),
+                operateperson: $("#operateperson").val(),
+                paytype: $(".checkbox-inline input[type='radio']:checked").val()
+
+            },
+            success: function (res) {
+
+                //打印返回结果
+                console.log(res);
+
+                if (res.state == 0) {
+                    showTips(res.info, 50, 2, "#e74c3c");
+                    return
+                }
+                //关闭模态框
+                $('#myModal').modal('hide');
+                showTips(res.info, 50, 2, "#8FBC8F");
+
+                //刷新列表
+                setTimeout(function () {
+                    customerSearch(-1, "", "", $(this).attr("data-pageIndex"));
+                }, 2000)
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+
+    //[ajax] /Customer/Update 进货修改
+    function customerUpdate() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/Inport/Update",
+            dataType: "json",
+            data: {
+                id,
+                number: $("#number").val(),
+                inportprice: $("#inportprice").val(),
+                operateperson: $("#operateperson").val(),
+                paytype: $(".checkbox-inline input[type='radio']:checked").val(),
+            },
+            success: function (res) {
+
+                //打印返回结果
+                console.log(res);
+
+                if (res.state == 0) {
+                    showTips(res.info, 50, 2, "#e74c3c");
+                    return
+                }
+
+                //关闭模态框
+                $('#myModal').modal('hide');
+                showTips(res.info, 50, 2, "#8FBC8F");
+                $('.btn-primary').text("提交");
+
+                //刷新列表
+                setTimeout(function () {
+                    customerSearch(option, $("#starttime").val(), $("#endtime").val(), Index);
+                }, 2000);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[ajax] /Customer/Search 进货搜索
+    function customerSearch(goodsid, starttime, endtime, pageIndex) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/Inport/Search",
+            dataType: "json",
+            data: { goodsid, starttime, endtime, pageIndex },
+            success: function (res) {
+                //打印返回结果
+                console.log(res);
+                var list = res.list;
+                var pageIndex = res.pageIndex;
+                var pageCount = res.pageCount;
+                if (list.length > 0) {
+                    showTips("表格已刷新", 50, 2, "#8FBC8F");
+                } else {
+                    showTips("没有查询到数据", 50, 2, "#e74c3c");
+                }
+                $customerList = list;
+                //列表渲染
+                listRendering();
+                pagination(pageIndex, pageCount);
+
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+
+
+    //[ajax] Customer/Info 进货个人信息
+    function customerInfo() {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:60440/Inport/Info",
+            dataType: "json",
+            data: { id },
+            success: function (res) {
+
+                //打印返回结果
+                console.log(res);
+                id = res.id;
+                //初始化模态框中的数据
+
+                $('#providerid').html("<option>" + res.providername + "</option>");
+                $('#goodsid').html("<option>" + res.goodsname + "</option>");
+                $('#providerid').attr("disabled", "disabled");
+                $('#goodsid').attr('disabled', 'disabled');
+
+
+                $("#number").val(res.number),
+                    $("#inportprice").val(res.inportprice),
+                    $("#operateperson").val(res.operateperson),
+                    $('.checkbox-inline').find('input[value=' + res.paytype + ']').prop("checked", "checked").siblings().removeAttr("checked");
+
+
+                //显示模态框
+                $('#myModal').modal('show');
+                $('.btn-primary').text("修改");
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+
+    //搜索 ProviderIdList
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:60440/Inport/ProviderIdList",
+        dataType: "json",
+        success: function (res) {
+            //打印返回结果
+            console.log(res);
+            $("#providerid-search").html('');
+            $("#providerid-search").append(' <option value="" disabled="" selected="" hidden="">选择供应商</option>');
+            $.each(res, function (index, data) {
+                $("#providerid-search").append(`<option value="${data.providerid}">${data.providername}</option>`)
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+     //添加 ProviderIdList
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:60440/Goods/ProviderIdList",
+        dataType: "json",
+        success: function (res) {
+            //打印返回结果
+            console.log(res);
+            $("#providerid").html('');
+            $("#providerid").append(' <option value="" disabled="" selected="" hidden="">选择供应商</option>');
+            $.each(res, function (index, data) {
+                $("#providerid").append(`<option value="${data.providerid}">${data.providername}</option>`)
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });  
+
+
+    //[ajax] Inport/Childrenlist getGoodsChildrenList
+    function getGoodsChildrenList(providID) {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:60440/Goods/GoodsIdList",
+            dataType: "json",
+            data: { id: providID, },
+            success: function (res) {
+                //打印返回结果 没有是空的
+                console.log(res);
+                //$customerList = res;
+                if (res.length < 0) {
+                    $("#goodsid").html('<option ">没有商品</option>');
+                    return
+                }
+                $("#goodsid").html('');
+                $("#goodsid").append(' <option value="" disabled="" selected="" hidden="">选择商品</option>');
+              
+                $.each(res, function (index, data) {
+                    $("#goodsid").append(`<option value="${data.id}">${data.goodsname}</option>`)
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[ajax] Goods/Childrenlist
+    function getInportChildrenList(providID) {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:60440/Inport/GoodsIdList",
+            dataType: "json",
+            data: { id: providID, },
+            success: function (res) {
+                //打印返回结果 没有是空的
+                console.log(res);
+                //$customerList = res;
+                if (res.length < 0) {
+                    $("#goodsid-search").html('<option ">没有商品</option>');
+                    return
+                }
+                $("#goodsid-search").html('');
+                $("#goodsid-search").append(' <option value="" disabled="" selected="" hidden="">选择商品</option>');
+                $.each(res, function (index, data) {
+                    $("#goodsid-search").append(`<option value="${data.id}">${data.goodsname}</option>`)
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+    //初始化
+    customerSearch(-1, "", "", Index);
+
+
+    //导出数据
+    document.getElementById("export").addEventListener('click', function () {
+        var blob = new Blob([document.getElementById("exportTable").outerHTML], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+        });
+        saveAs(blob, "export.xls");
+    })
+
+</script>

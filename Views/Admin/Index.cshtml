@@ -1,0 +1,121 @@
+﻿@section otherstyle{<link />    }
+<h3>后台首页</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">网站数据统计</div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>商品名称</th>
+                            <th>库存量</th>
+                            <th>预警量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Java入门到放弃</th>
+                            <td>200</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">JavaScript入门到放弃</th>
+                            <td>300</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">C语言</th>
+                            <td>400</td>
+                            <td>40</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">asp.net网站开发</th>
+                            <td>600</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">c#桌面开发</th>
+                            <td>450</td>
+                            <td>50</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">网站公告</div>
+            <ul id="notice-news" class="list-group"></ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">今日访客统计</div>
+            <div class="panel-body">
+                <canvas id="canvas" class="col-md-12" width="553" height="261" style="width: 553px; height: 261px;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">服务器状态</div>
+            <div class="panel-body">
+                <p>内存使用率：40%</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"></div>
+                </div>
+                <p>数据库使用率：20%</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div>
+                </div>
+                <p>磁盘使用率：60%</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"></div>
+                </div>
+                <p>CPU使用率：80%</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Chart.js"></script>
+<script src="~/Scripts/script.js"></script>
+
+<script>
+    //[ajax] /Admin/News 客户修改
+    function news() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/Admin/News",
+            dataType: "json",
+            success: function (res) {
+                $.each(res, function (index, item) {
+                    var html = `
+                    <li class="list-group-item">
+                        <a href = "/Admin/News?id=${item.noticeid}" > 
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                            &nbsp;${item.noticename}
+                            <small class="pull-right" > ${new Date(parseInt(item.noticetime.substr(6, 13))).toLocaleDateString()}</small >
+                        </a >
+                    </li >`
+                    $("#notice-news").prepend(html);   
+                })
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+    news();
+
+
+
+</script>

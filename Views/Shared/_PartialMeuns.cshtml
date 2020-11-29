@@ -1,0 +1,62 @@
+﻿<script>
+    //本地获取
+    var navurl = [];
+    var user = jQuery.parseJSON(window.localStorage.getItem("user"));
+    var url = user.url ? user.url.split(" ") : false;
+    //初始化信息
+    function Init() {
+        console.log(user.name);
+        //名字
+        $(".aside .profile .name").text(user.name);
+        //图片
+
+        
+
+        console.log("用户权限" + url);
+        //菜单
+        if (!url) {
+            return;
+        }
+        url.pop();
+        url.push("/Admin");
+        //获取所有的href
+        $(".aside .nav li a").each(function () {
+            navurl.push($(this).attr("href"));
+        })
+
+        //过滤
+        navurl = navurl.filter(function (item) {
+            return !url.includes(item);
+        })
+
+        console.log("过滤的url完的" + navurl);
+
+
+        //删除 a[href^="/"] 清除子集
+        $.each(navurl, function (index, item) {
+            $(".aside .nav li a[href^='/']").each(function () {
+                if ($(this).attr("href") === item) {
+                    $(this).remove();
+                }
+            })
+        })
+
+        //删除 a[href^='#']" 如果子集为空时，父集也要删除
+        $(".aside .nav li a[href^='#']").each(function () {
+            if (!$(this).next().find("a").length) {
+                $(this).remove();
+            }
+
+        })
+
+    }
+    Init();
+
+
+    
+
+
+    
+
+ 
+</script>

@@ -1,0 +1,86 @@
+﻿
+
+
+@section otherstyle{<link />    }
+<h3>修改密码</h3>
+<div class="form-group">
+    <label for="oldpassword">旧密码</label>
+    <input type="password" id="oldpassword" class="form-control" placeholder="旧密码">
+</div>
+<div class="form-group">
+    <label for="newpassword">新密码</label>
+    <input type="password" id="newpassword" class="form-control" placeholder="新密码">
+</div>
+<div class="form-group">
+    <label for="newpassword2">确认密码</label>
+    <input type="password" id="newpassword2" class="form-control" placeholder="确认密码">
+</div>
+<button type="button" class="btn btn-primary">修改</button>
+
+
+
+<script>
+
+
+    $(".btn-primary").click(customerUpdate)
+
+
+    //[ajax] /Customer/Update 客户修改
+    function customerUpdate() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/Admin/Password",
+            dataType: "json",
+            data: {
+                oldpassword: $("#oldpassword").val(),
+                newpassword: $("#newpassword").val(),
+                newpassword2: $("#newpassword2").val(),
+            },
+            success: function (res) {
+
+                //打印返回结果
+                console.log(res);
+
+                if (res.state == 0) {
+                    showTips(res.info, 50, 2, "#e74c3c");
+                    return
+                }
+
+                location.href = '/Home/Index';
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[alert] 提示框
+    function showTips(tips, height, time, color) {
+        var windowWidth = document.documentElement.clientWidth;
+        //当页面不存在时 创建
+        if (!document.getElementById("tipsClass")) {
+            var tipsDiv = '<div id="tipsClass"></div>';
+            console.log("执行");
+            $('body').append(tipsDiv);
+        }
+        $('div#tipsClass').css({
+            'top': 0 + 'px',
+            'left': (windowWidth / 2) - (tips.length * 13 / 2) + 'px',
+            'position': 'absolute',
+            'padding': '15px 25px',
+            'background': color,//#8FBC8F
+            'font-size': 12 + 'px',
+            'margin': '0 auto',
+            'text-align': 'center',
+            'width': 'auto',
+            'color': '#fff',
+            'opacity': '0.8',
+            'z-index': '9999',
+            'border-radius': '4px',
+            'box-shadow': '0 4px 12px rgba(0, 0, 0, .15)',
+        }).text(tips).show().animate({ 'top': height }, 200);
+        setTimeout(function () { $('div#tipsClass').fadeOut(); }, (time * 800));
+    }
+
+</script>

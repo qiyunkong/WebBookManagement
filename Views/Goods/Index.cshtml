@@ -1,0 +1,706 @@
+﻿@section otherstyle{<link href="~/Content/file.css" rel="stylesheet" />    }
+
+<h3>商品管理</h3>
+<!--查询-->
+<div class="row">
+    <div style="padding-left:0;" class="col-md-6 ">
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <select id="select-search" class="form-control">
+                    <option value="0">按书的名称搜索</option>
+                    <option value="1">按供应商名称搜索</option>
+                    <option value="2">按出版社搜索</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" id="input-search" class="form-control" placeholder="Search">
+            </div>
+            <button type="button" id="btn-search" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-1">
+        <button style="margin: 10px 0;" id="btnShowModal" data-toggle="modal" data-target="#myModal" class="btn btn-default">添加商品</button>
+    </div>
+</div>
+<!--查询-->
+<!--表格-->
+<h2 class="sub-header">Section title</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>商品名称</th>
+                <th>供应商公司全称</th>
+                <th>商品产地</th>
+                <th>销售单价</th>
+                <th>商品规格</th>
+                <th>商品库存量</th>
+                <th>商品预警量</th>
+                <th>出版社全称</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="list-tbody">
+            <!--- 数据遍历  -->
+        </tbody>
+    </table>
+</div>
+<!--表格-->
+<!---分页 start-->
+<div class="row">
+    <div class="col-md-4 col-md-offset-8">
+        <nav aria-label="Page navigation">
+            <ul id="pagination" class="pagination"></ul>
+        </nav>
+    </div>
+</div>
+<!---分页 end-->
+<!-- Modal start -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加商品</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="providerid">供应商公司全称</label>
+                            <select id="providerid" class="form-control">
+                                <option value="" disabled="" selected="" hidden="">请选择供应商</option>
+                                <option>限制会员</option>
+                                <option>新手上路</option>
+                                <option>组册会员</option>
+                                <option>中级会员</option>
+                                <option>高级会员</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="goodsname">商品名称</label>
+                            <input type="text" id="goodsname" class="form-control" placeholder="商品名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="produceplace">商品产地</label>
+                            <input type="text" id="produceplace" class="form-control" placeholder="商品产地">
+                        </div>
+                        <div class="form-group">
+                            <label for="size">商品规格</label>
+                            <input type="text" id="size" class="form-control" placeholder="商品规格">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="address">商品图片</label>
+                        <div class="file-box">
+                            <div class="show-file">
+                                <ul class="list-file">
+                                    <li class="list-item">
+                                        <img id="goodsimg" src="~/img/code.jpg" />
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="file-info">
+                                <div class="file-title">
+                                    <i class=""></i>
+                                    <input id="fileName" type="text" value="请上传文件">
+                                </div>
+                                <div class="file-btn">
+                                    <button class="delete">
+                                        <i class="fa fa-trash"></i>
+                                        <span>删除</span>
+                                    </button>
+                                    <button id="btnFileUp" class="upload">
+                                        <i class="fa fa-upload"></i>
+                                        <span>上传</span>
+                                    </button>
+                                    <div class="choice">
+                                        <i class="fa fa-folder-open"></i>
+                                        <span>文件</span>
+                                        <input type="file" id="fileUpImage" multiple="multiple" name="pic" accept="image/*">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="price">销售价格</label>
+                            <div class="input-group">
+                                <input type="text" id="price" class="form-control" placeholder="销售价格" aria-describedby="basic-addon2">
+                                <span class="input-group-addon" id="basic-addon2">元</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="number">商品库存量</label>
+                            <input type="text" id="number" class="form-control" placeholder="商品库存量">
+                        </div>
+                        <!---
+                        <div class="form-group">
+                            <label for="addyonghuzu">所属用户组</label>
+                            <select id="addyonghuzu" class="form-control">
+                                <option>限制会员</option>
+                                <option>新手上路</option>
+                                <option>组册会员</option>
+                                <option>中级会员</option>
+                                <option>高级会员</option>
+                        dangernum
+                            </select>
+                        </div>
+                        -->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="pressid">出版社全称</label>
+                            <select id="pressid" class="form-control">
+                                <option>限制会员</option>
+                                <option>新手上路</option>
+                                <option>组册会员</option>
+                                <option>中级会员</option>
+                                <option>高级会员</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dangernum">商品预警量</label>
+                            <input type="text" id="dangernum" class="form-control" placeholder="商品预警量">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+
+
+
+
+
+    //存储列表数据
+    var $GoodsList = [];
+
+    //被选中的信息id
+    var id;
+
+    //存储选择框中的项
+    var option = -1;
+
+    //存储搜索内容
+    var value = "";
+
+    //索引
+    var Index = 0;
+
+    //图片SRC
+    var ImgSrc;
+
+    //[file] 文件读取
+    $("input:file").on('change', function (event) {
+        $('#fileContentList').empty();
+        for (var i = 0; i < event.target.files.length; i++) {
+            var file = event.target.files[i];
+            if (file) {
+                var r = new FileReader();
+                r.file = file;
+                r.readAsDataURL(file);
+                r.onload = function (e) {
+                    var contents = e.target.result;
+                    var thisfile = this.file;
+                    $("#fileName").val(thisfile.name);
+                    $(".list-file").html(`<li class="list-item"><img id="goodsimg" src="${contents}" /></li>`)
+                }
+            } else {
+                alert("选择文件失败");
+            }
+        }
+
+
+    });
+
+
+    //[modal] 添加商品ajax||修改商品的ajax
+    $(".btn-primary").click(function () {
+
+        if ($(this).text() == "提交") {
+            GoodsAdd();
+        } else {
+            GoodsUpdate();
+        }
+
+    })
+
+    //[modal] 模态框取消
+    /*
+    $(".btn-default").click(function () {
+        $('#myModal').modal('hide');
+        $(".btn-primary").text("提交");
+    })
+    */
+    $("#btnShowModal").click(function () {
+        $(".btn-primary").text("提交");
+        //清空上次记录所有数据
+    })
+
+
+    //[table] 修改按钮  模态框出现
+    $("#list-tbody").on("click", ".btn-success", function () {
+        id = $(this).attr("data-id");
+        GoodsInfo();
+    })
+
+    //[table] 删除按钮  确定框出现
+    $("#list-tbody").on("click", ".btn-danger", function () {
+        id = $(this).attr("data-id");
+        if (confirm("您确定要删除吗？")) {
+            GoodsDelete();
+        }
+        return false;
+    })
+
+    //[pagination] 分页按钮 获取数据
+    $("#pagination").on("click", "li", function () {
+        //console.log($(this).index());
+        Index = $(this).attr("data-pageIndex");
+        GoodsSearch(option, value, $(this).attr("data-pageIndex"));
+    })
+
+    //[navbar] 搜索按钮
+    $("#btn-search").click(function () {
+        option = $("#select-search option:selected").val();  //获取选中的项
+        console.log(option);
+        value = $("#input-search").val();
+        console.log(value);
+        GoodsSearch(option, value);
+    })
+
+
+
+
+    //[alert] 提示框
+    function showTips(tips, height, time, color) {
+        var windowWidth = document.documentElement.clientWidth;
+        //当页面不存在时 创建
+        if (!document.getElementById("tipsClass")) {
+            var tipsDiv = '<div id="tipsClass"></div>';
+            console.log("执行");
+            $('body').append(tipsDiv);
+        }
+        $('div#tipsClass').css({
+            'top': 0 + 'px',
+            'left': (windowWidth / 2) - (tips.length * 13 / 2) + 'px',
+            'position': 'absolute',
+            'padding': '15px 25px',
+            'background': color,//#8FBC8F
+            'font-size': 12 + 'px',
+            'margin': '0 auto',
+            'text-align': 'center',
+            'width': 'auto',
+            'color': '#fff',
+            'opacity': '0.8',
+            'z-index': '9999',
+        }).text(tips).show().animate({ 'top': height }, 200);
+        setTimeout(function () { $('div#tipsClass').fadeOut(); }, (time * 800));
+    }
+
+    //[table]  渲染表格商品信息
+    function listRendering() {
+        var listTemplate;
+        //清空数据
+        $(".table-responsive tbody").html('');
+
+        //判断表格是否用数据
+        if ($GoodsList.length == 0) {
+            listTemplate = `<tr>
+        <td style="text-align:center;line-height:100px" colspan="10">没有数据</td>
+        </tr>`;
+            $(".table-responsive tbody").append(listTemplate);
+            return;
+        }
+
+        console.log($GoodsList);
+        $.each($GoodsList, function (index, data) {
+            console.log(1);
+            listTemplate = `<tr>
+            <td>${data.id}</td>
+            <td>${data.goodsname}</td>
+            <td>${data.providername}</td>
+            <td>${data.produceplace}</td>
+            <td>${data.price}</td>
+            <td>${data.size}</td>
+            <td>${data.number}</td>
+            <td>${data.dangernum}</td>
+            <td>${data.prename}</td>
+            <td>
+                <a data-id=${data.id} class="btn btn-danger btn-xs">删除</a>
+                <a data-id=${data.id} class="btn btn-success btn-xs">修改</a>
+                <a data-id=${data.id} class="btn btn-info btn-xs">详情</a>
+            </td>
+        </tr>`;
+            $(".table-responsive tbody").append(listTemplate);
+        })
+
+    }
+
+    //[pagination] 分页渲染
+    function pagination(pageIndex, pageCount) {
+        $(".pagination").html('');
+        if (pageCount == 1) {
+            $(".pagination").append(``);
+            return;
+        }
+        var start = pageIndex - 2;//计算起始位置，要求页面上显示4个数字页 1~5
+        if (start < 1) {
+            start = 1;
+        }
+        var end = start + 3;
+
+        if (end > pageCount) {
+            end = pageCount;
+            start = end - 3 < 1 ? 1 : end - 3;
+        }
+
+        if (pageIndex > 1) {
+            console.log("执行");
+            $(".pagination").append(`<li data-pageIndex=${pageIndex - 1}><a   aria-label="Previous"><span aria-hidden="true">&laquo;</span>
+            </a></li>`);
+        }
+        //循环遍历页数
+        for (var i = start; i <= end; i++) {
+            if (i == pageIndex) {
+                //当前页
+                $(".pagination").append(`<li class="active" data-pageIndex=${i}><a >${i}</a></li>`);
+            }
+            else {
+                $(".pagination").append(`<li data-pageIndex=${i}><a >${i}</a></li>`);
+
+
+            }
+        }
+        if (pageIndex < pageCount) {
+            $(".pagination").append(`<li data-pageIndex=${pageIndex + 1}><a aria-label="Next"><span aria-hidden="true">&raquo;</span>
+            </a></li>`);
+        }
+    }
+
+    //[ajax] /Goods/Add 商品添加
+    function GoodsAdd() {
+        if (!ImgSrc) {
+            showTips("您还没有上传图片", 50, 2, "#e74c3c");
+            return
+        }
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/Goods/Add",
+            dataType: "json",
+            data: {
+                goodsname: $("#goodsname").val(),
+                produceplace: $("#produceplace").val(),
+                size: $("#size").val(),
+                pressid: $("#pressid option:selected").val(),
+                price: $("#price").val(),
+                providerid: $("#providerid option:selected").val(),
+                number: $("#number").val(),
+                dangernum: $("#dangernum").val(),
+                goodsimg: ImgSrc,
+            },
+            success: function (res) {
+
+                //打印返回结果
+                console.log(res);
+
+                if (res.state == 0) {
+                    showTips(res.info, 50, 2, "#e74c3c");
+                    return
+                }
+                //关闭模态框
+                $('#myModal').modal('hide');
+                showTips(res.info, 50, 2, "#8FBC8F");
+
+                //刷新列表
+                setTimeout(function () {
+                    GoodsSearch(option, value, Index);
+                }, 2000)
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[ajax] /Goods/Delete 商品删除
+    function GoodsDelete() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/Goods/Delete",
+            dataType: "json",
+            data: { id },
+            success: function (res) {
+                //打印返回结果
+                console.log(res);
+
+                //状态判断
+                if (res.state == 0) {
+                    showTips(res.info, 50, 2, "#e74c3c");
+                    return
+                }
+
+                //成功的
+                showTips(res.info, 50, 2, "#8FBC8F");
+
+
+                //刷新列表
+                setTimeout(function () {
+                    GoodsSearch(option, value, Index);
+                }, 2000)
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[ajax] /Goods/Update 商品修改
+    function GoodsUpdate() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/Goods/Update",
+            dataType: "json",
+            data: {
+                id,
+                goodsname: $("#goodsname").val(),
+                produceplace: $("#produceplace").val(),
+                size: $("#size").val(),
+                pressid: $("#pressid option:selected").val(),
+                price: $("#price").val(),
+                providerid: $("#providerid option:selected").val(),
+                number: $("#number").val(),
+                dangernum: $("#dangernum").val(),
+                goodsimg: ImgSrc,
+            },
+            success: function (res) {
+
+                //打印返回结果
+                console.log(res);
+
+                if (res.state == 0) {
+                    showTips(res.info, 50, 2, "#e74c3c");
+                    return
+                }
+
+                //关闭模态框
+                $('#myModal').modal('hide');
+                showTips(res.info, 50, 2, "#8FBC8F");
+                $('.btn-primary').text("提交");
+
+                //刷新列表
+                setTimeout(function () {
+                    GoodsSearch(option, value, Index);
+                }, 2000);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[ajax] /Goods/Search 商品搜索
+    function GoodsSearch(option, value, pageIndex) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/Goods/Search",
+            dataType: "json",
+            data: { option, value, pageIndex },
+            success: function (res) {
+                //打印返回结果
+                console.log(res);
+                var list = res.list;
+                var pageIndex = res.pageIndex;
+                var pageCount = res.pageCount;
+                if (list.length > 0) {
+                    showTips("表格已刷新", 50, 2, "#8FBC8F");
+                } else {
+                    showTips("没有查询到数据", 50, 2, "#e74c3c");
+                }
+                $GoodsList = list;
+                //列表渲染
+                listRendering();
+                pagination(pageIndex, pageCount);
+
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    //[ajax] Goods/Info 商品个人信息
+    function GoodsInfo() {
+
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:60440/Goods/Info",
+            dataType: "json",
+            data: { id },
+            success: function (res) {
+
+                //打印返回结果
+                console.log(res);
+
+                //初始化模态框中的数据
+                $('#providerid').find('option[value=' + res.providerid + ']').attr('selected', 'selected');
+                $('#pressid').find('option[value=' + res.pressid + ']').attr('selected', 'selected');
+                $("#goodsname").val(res.goodsname);
+                $("#produceplace").val(res.produceplace);
+                $("#size").val(res.size);
+                $("#price").val(res.price);
+                $("#number").val(res.number);
+                $("#dangernum").val(res.dangernum);
+                $("#goodsimg").attr("src", res.goodsimg);
+                $("#fileName").val(res.goodsname);
+                ImgSrc = res.goodsimg;
+                console.log(res.goodsimg);
+
+
+                //显示模态框
+                $('#myModal').modal('show');
+                $('.btn-primary').text("修改");
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //图片上传
+    function fileUpload() {
+        $("#btnFileUp").click(function () {
+            if ($("#fileUpImage").val() == "") {
+                alert("提示选择上传的图片文件");
+                return;
+            }
+
+
+            var formData = new FormData();
+            // 获取第文件的内容
+            formData.append("pic", $('#fileUpImage').get(0).files[0]);
+            console.log(formData)
+            console.log(formData.get("pic"));
+            console.log(formData.getAll("pic"));
+
+            $.ajax({
+                type: "post",
+                url: "http://localhost:60440/Goods/UploadImg",
+                processData: false,  // 这个必须为false，不转换的信息
+                contentType: false, // 这个必须为false，不指定发送信息的编码类型
+                cache: false,
+                dataType: "json",
+                data: formData,
+                success: function (data) {
+                    //判断
+                    if (!data.state) return;
+                    //图片地址
+                    ImgSrc = "http://localhost:60440";
+                    ImgSrc += data.fileDir;
+                    console.log(ImgSrc);
+                    showTips(data.info, 50, 2, "#8FBC8F");
+                }
+            })
+
+            /*
+            $.ajaxFileUpload({
+                url: "/AjaxDemo/UploadImg",         //用于文件上传的服务器端请求地址
+                secureuri: false,                   //是否需要安全协议，一般设置为false
+                fileElementId: 'fileUpImage',       //文件上传域的ID
+                dataType: 'json',                   //返回值类型 一般设置为json
+                success: function (data, status)    //服务器成功响应处理函数
+                {
+
+                },
+                error: function (data, status, e)//服务器响应失败处理函数
+                {
+                    alert(e);
+                }
+            })
+            */
+
+        })
+
+    }
+
+
+    //商品列表ajax
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:60440/Goods/List",
+        dataType: "json",
+        data: { number: 0 },
+        success: function (res) {
+            //打印返回结果
+            console.log(res);
+            $GoodsList = res;
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+    //供应商信息 ajax
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:60440/Goods/Providerid",
+        dataType: "json",
+        success: function (res) {
+            //打印返回结果
+            console.log(res);
+
+            $("#providerid").html('');
+            $.each(res, function (index, data) {
+                $("#providerid").append(`<option value="${data.id}">${data.providername}</option>`)
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+    //出版社信息 ajax
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:60440/Goods/Pressid",
+        dataType: "json",
+        success: function (res) {
+            //打印返回结果
+            console.log(res);
+
+            $("#pressid").html('');
+            $.each(res, function (index, data) {
+                $("#pressid").append(`<option value="${data.id}">${data.prename}</option>`)
+            });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+
+
+    //初始化 列表
+    GoodsSearch(option, value);
+    //初始化 按钮
+    fileUpload();
+</script>

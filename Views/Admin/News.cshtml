@@ -1,0 +1,11 @@
+﻿@{
+
+    var news = @ViewData["news"] as object;
+
+}
+@section otherstyle{<link />    }
+<h3 > 通知公告</h3>
+<h3 style="text-align:center"> @news.GetType().GetProperty("noticename").GetValue(news).ToString();</h3>
+<p style="text-align:center">发布人:@news.GetType().GetProperty("name").GetValue(news).ToString(); 发布时间:@news.GetType().GetProperty("noticetime").GetValue(news).ToString();</p>
+<p style="text-align:center">@news.GetType().GetProperty("noticecontent").GetValue(news).ToString()</p>
+

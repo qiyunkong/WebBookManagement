@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BookModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="telephone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="connectionperson" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="bank" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Sales" Relationship="Self.FK_sales_customer" FromRole="Customer" ToRole="Sales" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="departmenttime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="userid" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_department_user" FromRole="Department" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Goods">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="goodsname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="produceplace" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="size" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="pressid" Type="Int32" Nullable="false" />
+    <Property Name="price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="providerid" Type="Int32" Nullable="false" />
+    <Property Name="number" Type="Int32" Nullable="false" />
+    <Property Name="dangernum" Type="Int32" Nullable="false" />
+    <Property Name="goodsimg" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Press" Relationship="Self.FK_goods_press" FromRole="Goods" ToRole="Press" />
+    <NavigationProperty Name="Provider" Relationship="Self.FK_goods_provider" FromRole="Goods" ToRole="Provider" />
+    <NavigationProperty Name="Inport" Relationship="Self.FK_inport_goods" FromRole="Goods" ToRole="Inport" />
+    <NavigationProperty Name="Sales" Relationship="Self.FK_sales_goods" FromRole="Goods" ToRole="Sales" />
+  </EntityType>
+  <EntityType Name="Inport">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="providerid" Type="Int32" Nullable="false" />
+    <Property Name="paytype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="inporttime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="operateperson" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="number" Type="Int32" Nullable="false" />
+    <Property Name="inportprice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="goodsid" Type="Int32" Nullable="false" />
+    <Property Name="userid" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Goods" Relationship="Self.FK_inport_goods" FromRole="Inport" ToRole="Goods" />
+    <NavigationProperty Name="Provider" Relationship="Self.FK_inport_provider" FromRole="Inport" ToRole="Provider" />
+    <NavigationProperty Name="User" Relationship="Self.FK_inport_user" FromRole="Inport" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Press">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="prename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="preperson" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Goods" Relationship="Self.FK_goods_press" FromRole="Press" ToRole="Goods" />
+  </EntityType>
+  <EntityType Name="Provider">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="providername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="telephone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="providerperson" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="bank" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Goods" Relationship="Self.FK_goods_provider" FromRole="Provider" ToRole="Goods" />
+    <NavigationProperty Name="Inport" Relationship="Self.FK_inport_provider" FromRole="Provider" ToRole="Inport" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="rolename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="roletime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_user_role" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Sales">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customerid" Type="Int32" Nullable="false" />
+    <Property Name="paytype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="salestime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="operateperson" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="number" Type="Int32" Nullable="false" />
+    <Property Name="saleprice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="goodsid" Type="Int32" Nullable="false" />
+    <Property Name="userid" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_sales_customer" FromRole="Sales" ToRole="Customer" />
+    <NavigationProperty Name="Goods" Relationship="Self.FK_sales_goods" FromRole="Sales" ToRole="Goods" />
+    <NavigationProperty Name="User" Relationship="Self.FK_sales_user" FromRole="Sales" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="roleid" Type="Int32" />
+    <Property Name="usertime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Department" Relationship="Self.FK_department_user" FromRole="User" ToRole="Department" />
+    <NavigationProperty Name="Inport" Relationship="Self.FK_inport_user" FromRole="User" ToRole="Inport" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_user_role" FromRole="User" ToRole="Role" />
+    <NavigationProperty Name="Sales" Relationship="Self.FK_sales_user" FromRole="User" ToRole="Sales" />
+    <NavigationProperty Name="Notice" Relationship="BookModel.FK_Notice_User" FromRole="User" ToRole="Notice" />
+  </EntityType>
+  <Association Name="FK_sales_customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sales">
+        <PropertyRef Name="customerid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_department_user">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Department" Type="Self.Department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Department">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_goods_press">
+    <End Role="Press" Type="Self.Press" Multiplicity="1" />
+    <End Role="Goods" Type="Self.Goods" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Press">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Goods">
+        <PropertyRef Name="pressid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_goods_provider">
+    <End Role="Provider" Type="Self.Provider" Multiplicity="1" />
+    <End Role="Goods" Type="Self.Goods" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Goods">
+        <PropertyRef Name="providerid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_inport_goods">
+    <End Role="Goods" Type="Self.Goods" Multiplicity="1" />
+    <End Role="Inport" Type="Self.Inport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Goods">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Inport">
+        <PropertyRef Name="goodsid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sales_goods">
+    <End Role="Goods" Type="Self.Goods" Multiplicity="1" />
+    <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Goods">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sales">
+        <PropertyRef Name="goodsid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_inport_provider">
+    <End Role="Provider" Type="Self.Provider" Multiplicity="1" />
+    <End Role="Inport" Type="Self.Inport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Inport">
+        <PropertyRef Name="providerid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_inport_user">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Inport" Type="Self.Inport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Inport">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_role">
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="roleid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sales_user">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sales">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BookEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customer" EntityType="Self.Customer" />
+    <EntitySet Name="Department" EntityType="Self.Department" />
+    <EntitySet Name="Goods" EntityType="Self.Goods" />
+    <EntitySet Name="Inport" EntityType="Self.Inport" />
+    <EntitySet Name="Press" EntityType="Self.Press" />
+    <EntitySet Name="Provider" EntityType="Self.Provider" />
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="Sales" EntityType="Self.Sales" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK_sales_customer" Association="Self.FK_sales_customer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Sales" EntitySet="Sales" />
+    </AssociationSet>
+    <AssociationSet Name="FK_department_user" Association="Self.FK_department_user">
+      <End Role="User" EntitySet="User" />
+      <End Role="Department" EntitySet="Department" />
+    </AssociationSet>
+    <AssociationSet Name="FK_goods_press" Association="Self.FK_goods_press">
+      <End Role="Press" EntitySet="Press" />
+      <End Role="Goods" EntitySet="Goods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_goods_provider" Association="Self.FK_goods_provider">
+      <End Role="Provider" EntitySet="Provider" />
+      <End Role="Goods" EntitySet="Goods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_inport_goods" Association="Self.FK_inport_goods">
+      <End Role="Goods" EntitySet="Goods" />
+      <End Role="Inport" EntitySet="Inport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sales_goods" Association="Self.FK_sales_goods">
+      <End Role="Goods" EntitySet="Goods" />
+      <End Role="Sales" EntitySet="Sales" />
+    </AssociationSet>
+    <AssociationSet Name="FK_inport_provider" Association="Self.FK_inport_provider">
+      <End Role="Provider" EntitySet="Provider" />
+      <End Role="Inport" EntitySet="Inport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_inport_user" Association="Self.FK_inport_user">
+      <End Role="User" EntitySet="User" />
+      <End Role="Inport" EntitySet="Inport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_role" Association="Self.FK_user_role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sales_user" Association="Self.FK_sales_user">
+      <End Role="User" EntitySet="User" />
+      <End Role="Sales" EntitySet="Sales" />
+    </AssociationSet>
+    <EntitySet Name="Notice" EntityType="BookModel.Notice" />
+    <AssociationSet Name="FK_Notice_User" Association="BookModel.FK_Notice_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Notice" EntitySet="Notice" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Notice">
+    <Key>
+      <PropertyRef Name="noticeid" />
+    </Key>
+    <Property Name="noticeid" Type="Int32" Nullable="false" />
+    <Property Name="userid" Type="Int32" Nullable="false" />
+    <Property Name="noticetime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="noticename" Type="String" Nullable="false" />
+    <Property Name="noticecontent" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="User" Relationship="BookModel.FK_Notice_User" FromRole="Notice" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Notice_User">
+    <End Type="BookModel.User" Role="User" Multiplicity="1" />
+    <End Type="BookModel.Notice" Role="Notice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Notice">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

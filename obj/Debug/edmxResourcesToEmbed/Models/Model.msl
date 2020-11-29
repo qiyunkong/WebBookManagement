@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BookModelStoreContainer" CdmEntityContainer="BookEntities1">
+    <EntitySetMapping Name="Customer">
+      <EntityTypeMapping TypeName="BookModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="customername" ColumnName="customername" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="connectionperson" ColumnName="connectionperson" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="bank" ColumnName="bank" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Department">
+      <EntityTypeMapping TypeName="BookModel.Department">
+        <MappingFragment StoreEntitySet="Department">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="departmenttime" ColumnName="departmenttime" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Goods">
+      <EntityTypeMapping TypeName="BookModel.Goods">
+        <MappingFragment StoreEntitySet="Goods">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="goodsname" ColumnName="goodsname" />
+          <ScalarProperty Name="produceplace" ColumnName="produceplace" />
+          <ScalarProperty Name="size" ColumnName="size" />
+          <ScalarProperty Name="pressid" ColumnName="pressid" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="providerid" ColumnName="providerid" />
+          <ScalarProperty Name="number" ColumnName="number" />
+          <ScalarProperty Name="dangernum" ColumnName="dangernum" />
+          <ScalarProperty Name="goodsimg" ColumnName="goodsimg" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Inport">
+      <EntityTypeMapping TypeName="BookModel.Inport">
+        <MappingFragment StoreEntitySet="Inport">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="providerid" ColumnName="providerid" />
+          <ScalarProperty Name="paytype" ColumnName="paytype" />
+          <ScalarProperty Name="inporttime" ColumnName="inporttime" />
+          <ScalarProperty Name="operateperson" ColumnName="operateperson" />
+          <ScalarProperty Name="number" ColumnName="number" />
+          <ScalarProperty Name="inportprice" ColumnName="inportprice" />
+          <ScalarProperty Name="goodsid" ColumnName="goodsid" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Press">
+      <EntityTypeMapping TypeName="BookModel.Press">
+        <MappingFragment StoreEntitySet="Press">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="prename" ColumnName="prename" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="preperson" ColumnName="preperson" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="email" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Provider">
+      <EntityTypeMapping TypeName="BookModel.Provider">
+        <MappingFragment StoreEntitySet="Provider">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="providername" ColumnName="providername" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="providerperson" ColumnName="providerperson" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="bank" ColumnName="bank" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Role">
+      <EntityTypeMapping TypeName="BookModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="rolename" ColumnName="rolename" />
+          <ScalarProperty Name="roletime" ColumnName="roletime" />
+          <ScalarProperty Name="url" ColumnName="url" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sales">
+      <EntityTypeMapping TypeName="BookModel.Sales">
+        <MappingFragment StoreEntitySet="Sales">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="customerid" ColumnName="customerid" />
+          <ScalarProperty Name="paytype" ColumnName="paytype" />
+          <ScalarProperty Name="salestime" ColumnName="salestime" />
+          <ScalarProperty Name="operateperson" ColumnName="operateperson" />
+          <ScalarProperty Name="number" ColumnName="number" />
+          <ScalarProperty Name="saleprice" ColumnName="saleprice" />
+          <ScalarProperty Name="goodsid" ColumnName="goodsid" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="BookModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="roleid" ColumnName="roleid" />
+          <ScalarProperty Name="usertime" ColumnName="usertime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notice">
+      <EntityTypeMapping TypeName="BookModel.Notice">
+        <MappingFragment StoreEntitySet="Notice">
+          <ScalarProperty Name="noticename" ColumnName="noticename" />
+          <ScalarProperty Name="noticecontent" ColumnName="noticecontent" />
+          <ScalarProperty Name="noticetime" ColumnName="noticetime" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="noticeid" ColumnName="noticeid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

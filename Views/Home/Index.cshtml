@@ -1,0 +1,105 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Sign in &laquo; Admin</title>
+    <link href="~/Styles/admin.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="login">
+        <div class="login-wrap">
+            <img class="avatar" src="~/img/C.jpg" />
+            <!-- 有错误信息时展示 -->
+     
+            <div class="form-group">
+                <label for="username" class="sr-only">用户名</label>
+                <input id="username" type="email" class="form-control" placeholder="用户名" autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password" class="sr-only">密码</label>
+                <input id="password" type="password" class="form-control" placeholder="密码">
+            </div>
+            <button class="btn btn-primary btn-block" id="loginBtn">登 录</button>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        // 选择登录按钮并为其添加点击事件
+        $('#loginBtn').on('click', function () {
+            // 获取用户输入的邮箱地址
+            var username = $('#username').val();
+            // 获取用户输入的密码
+            var password = $('#password').val();
+            // 判断用户是否输入了邮箱地址
+            if (username.trim().length == 0) {
+                alert('请输入用户名')
+                return;
+            }
+            // 判断用户是否输入了密码
+            if (password.trim().length == 0) {
+                alert('请输入密码');
+                return;
+            }
+
+            $.ajax({
+                type: 'Post',
+                url: 'http://localhost:60440/Home/Login',
+                dataType: "json",
+                data: {
+                    username: username,
+                    password: password
+                },
+                success: function (response) {
+                    // 对用户的角色进行判断 如果是管理员就跳转到数据管理的首页面
+                    console.log(response);
+                    if (!response.state) {
+                        showTips(response.info, 50, 1, "alert-danger");
+                    } else {
+                        var user = JSON.stringify(response.u);
+                        window.localStorage.setItem("user", user);
+                        location.href = '/Admin/Index';
+                    }
+                    
+
+                },
+                error: function () {
+                    // 登录失败
+                    alert('用户名或者密码错误')
+                }
+            })
+
+        });
+        //[alert] 提示框 alert-danger警告
+        function showTips(tips, height, time, classname) {
+            var windowWidth = document.documentElement.clientWidth;
+            //当页面不存在时 创建
+            if (!document.getElementById("alertinfo")) {
+                var tipsDiv = `<div id="alertinfo" class="alert ${classname}"><strong> 错误！</strong> ${tips}</div >`;
+                $('body').append(tipsDiv);
+            } else {
+                $("#alertinfo").html(`<strong> 错误！</strong> ${ tips }</div >`);
+            }
+            $('div#alertinfo').css({
+                'top': '0',
+                'left': '0',
+                'right': '0',
+                'bouttom':'0',
+                'position': 'absolute',
+                'padding': '15px 25px',
+                'margin': '0 auto',
+                'width': 'max-content',
+                'opacity': '1',
+                'z-index': '9999',
+                'box-shadow': '0 4px 12px rgba(0, 0, 0, .15)',
+            }).show().animate({ 'top': height }, 200);
+            setTimeout(function () { $('div#alertinfo').fadeOut(); }, (time * 800));
+        }
+
+    </script>
+</body>
+</html>

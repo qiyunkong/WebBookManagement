@@ -1,0 +1,113 @@
+﻿.file-box {
+    width: 100%;
+}
+
+.file-box .show-file {
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.show-file .list-file {
+    margin: 10px;
+    padding: 5px;
+    border: 1px dashed #aaa;
+    vertical-align: middle;
+    overflow: overlay;
+    display: flex;
+}
+
+.list-item {
+    list-style-type: none;
+    flex: 1;
+    margin: 8px;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+    padding: 6px;
+    text-align: center;
+}
+
+.list-item img {
+    width: 160px;
+    height: 205px;
+    vertical-align: middle;
+}
+
+.file-info {
+    overflow: hidden;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    margin-top: 10px;
+    height: 30px;
+}
+
+.file-title {
+    width: 34%;
+    float: left;
+    border-right: 1px solid #aaa;
+    height: 100%;
+}
+.file-title input {
+    color: #ccc;
+    font-size: 14px;
+    line-height: 14px;
+    padding-left: 10px;
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+input {
+    border: none;
+    outline: none;
+    display: block;
+}
+
+.file-btn {
+    float: right;
+    width: 65%;
+    height: 100%;
+    background-color: #337ab7;
+}
+
+.file-btn button,
+.file-btn div {
+    float: left;
+    border: none;
+    background-color: #fff;
+    height: 100%;
+    text-align: center;
+    line-height: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.file-btn .delete {
+    width: 33%;
+    border-right: 1px solid #aaa;
+    color: #333;
+}
+
+.file-btn .upload {
+    border-right: 1px solid #aaa;
+    width: 33%;
+}
+
+.file-btn .choice {
+    position: relative;
+    background-color: #337ab7;
+    width: 33%;
+    color: #fff;
+    line-height: 30px;
+    font-size: 14px;
+}
+
+.choice input {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+}

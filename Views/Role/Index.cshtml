@@ -1,0 +1,517 @@
+﻿@section otherstyle{<link />    }
+
+<h3>角色管理</h3>
+<!--查询-->
+<div class="row">
+    <div class="navbar-form navbar-left">
+        <div class="form-group">
+            <input type="text" id="input-search" class="form-control" placeholder="搜索角色">
+            <button type="button" id="btn-search" class="btn btn-default">搜索</button>
+            <button type="button" id="btn-empty" class="btn btn-default">清空</button>
+        </div>
+    </div>
+</div>
+<!--查询-->
+<!--表格-->
+<h2 class="sub-header">
+    <button id="btnAddrole" style="margin: 10px 0;" data-toggle="modal" data-target="#myModal" class="btn btn-default">添加用户</button>
+    <button  style="margin: 10px 0;" data-toggle="modal" data-target="#setRoles" class="btn btn-default">设置权限</button>
+</h2>
+<div class="table-responsive">
+    <table class="table table-bordered text-nowrap">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>角色名称</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="list-tbody"></tbody>
+    </table>
+</div>
+<!--表格-->
+<!---分页 start-->
+<div class="row">
+    <div class="col-md-4 col-md-offset-8">
+        <nav aria-label="Page navigation">
+            <ul id="pagination" class="pagination"></ul>
+        </nav>
+    </div>
+</div>
+<!---分页 end-->
+
+<!-- Modal start -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">角色添加</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="rolename">角色名称</label>
+                        <input type="text" id="rolename" class="form-control" placeholder="角色名称">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="setRoles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">角色添加</h4>
+            </div>
+            <div class="modal-body">
+                <label class="checkbox-group">
+                    <input type="checkbox" rolename="url" value="/Customer">客户管理
+                </label>
+                <label class="checkbox-group">
+                    <input type="checkbox" rolename="url"  value="/Press">出版社管理
+                </label>
+                <label class="checkbox-group">
+                    <input type="checkbox" rolename="url" value="/Provider">供应商管理
+                </label>
+                <label class="checkbox-group">
+                    <input type="checkbox" rolename="url" value="/Goods">商品管理
+                </label>
+                <label class="checkbox-group">
+                    <input type="checkbox"  rolename="url" value="/Inport">进货管理
+                </label>
+                <label class="checkbox-group">
+                    <input type="checkbox" rolename="url" value="/Sales">销售管理
+                </label>
+                <label class="checkbox-group">
+                    <input type="checkbox" rolename="url"  value="/User">用户管理
+                </label>
+                <label class="checkbox-group">
+                    <input type="checkbox" rolename="url" value="/Role">角色管理
+                </label>
+                <label class="checkbox-group">
+                    <input type="checkbox" rolename="url" value="/Notice">公告管理
+                </label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+    //存储列表数据
+    var $roleList = [];
+
+    //被选中的信息id
+    var id;
+
+    //存储选择框中的项
+    var option = -1;
+
+    //存储搜索内容
+    var value = "";
+
+    var Index = 0;
+
+    //[modal] 添加角色ajax||修改角色的ajax
+    $("#myModal .btn-primary").click(function () {
+
+        if ($(this).text() == "提交") {
+            roleAdd();
+        } else {
+            var rolename = $("#rolename").val();
+            roleUpdate(rolename);
+        }
+
+    })
+
+    //[modal] 添加角色ajax||修改角色的ajax
+    $("#setRoles .btn-primary").click(function () {
+        var strUrl = "";
+        $("#setRoles input[type=checkbox]:checked").each(function () {
+            strUrl += $(this).val() + " ";
+        })
+        roleSetUrl(strUrl);
+    })
+
+
+    //[table] 修改按钮  模态框出现
+    $("#list-tbody").on("click", ".btn-success", function () {
+        id = $(this).attr("data-id");
+        roleInfo();
+    })
+
+    //[table] 权限按钮 权限模态框出现
+    $("#list-tbody").on("click", ".btn-warning", function () {
+        id = $(this).attr("data-id");
+        roleUrl();
+    })
+
+
+    //[table] 删除按钮  确定框出现
+    $("#list-tbody").on("click", ".btn-danger", function () {
+        id = $(this).attr("data-id");
+        if (confirm("您确定要删除吗？")) {
+            roleDelete();
+        }
+        return false;
+    })
+
+    //[pagination] 分页按钮 获取数据
+    $("#pagination").on("click", "li", function () {
+        Index = $(this).attr("data-pageIndex");
+        roleSearch(option, $(this).attr("data-pageIndex"));
+    })
+
+    //[navbar] 搜索按钮
+    $("#btn-search").click(function () {
+        value = $("#input-search").val();
+        roleSearch(option, Index);
+    })
+
+
+
+
+    //[alert] 提示框
+    function showTips(tips, height, time, color) {
+        var windowWidth = document.documentElement.clientWidth;
+        //当页面不存在时 创建
+        if (!document.getElementById("tipsClass")) {
+            var tipsDiv = '<div id="tipsClass"></div>';
+            console.log("执行");
+            $('body').append(tipsDiv);
+        }
+        $('div#tipsClass').css({
+            'top': 0 + 'px',
+            'left': (windowWidth / 2) - (tips.length * 13 / 2) + 'px',
+            'position': 'absolute',
+            'padding': '15px 25px',
+            'background': color,//#8FBC8F
+            'font-size': 12 + 'px',
+            'margin': '0 auto',
+            'text-align': 'center',
+            'width': 'auto',
+            'color': '#fff',
+            'opacity': '0.8',
+            'z-index': '9999',
+            'border-radius': '4px',
+            'box-shadow': '0 4px 12px rgba(0, 0, 0, .15)',
+        }).text(tips).show().animate({ 'top': height }, 200);
+        setTimeout(function () { $('div#tipsClass').fadeOut(); }, (time * 800));
+    }
+
+    //[table]  渲染表格角色信息
+    function listRendering() {
+        var listTemplate;
+        //清空数据
+        $(".table-responsive tbody").html('');
+
+        //判断表格是否用数据
+        if ($roleList.length == 0) {
+            listTemplate = `<tr>
+        <td style="text-align:center;line-height:100px" colspan="10">没有数据</td>
+        </tr>`;
+            $(".table-responsive tbody").append(listTemplate);
+            return;
+        }
+
+        console.log($roleList);
+        $.each($roleList, function (index, data) {
+            console.log(1);
+            listTemplate = `<tr>
+            <td>${data.id}</td>
+            <td>${data.rolename}</td>
+            <td>${new Date(parseInt(data.roletime.substr(6, 13))).toLocaleDateString()}</td>
+            <td>
+                <a data-id=${data.id} class="btn btn-danger btn-xs">删除</a>
+                <a data-id=${data.id} class="btn btn-success btn-xs">修改</a>
+                <a data-id=${data.id} class="btn btn-warning btn-xs">权限</a>
+            </td>
+        </tr>`;
+            $(".table-responsive tbody").append(listTemplate);
+        })
+
+    }
+
+    //[pagination] 分页渲染
+    function pagination(pageIndex, pageCount) {
+        $(".pagination").html('');
+        if (pageCount == 1) {
+            $(".pagination").append(``);
+            return;
+        }
+        var start = pageIndex - 2;//计算起始位置，要求页面上显示4个数字页 1~5
+        if (start < 1) {
+            start = 1;
+        }
+        var end = start + 3;
+
+        if (end > pageCount) {
+            end = pageCount;
+            start = end - 3 < 1 ? 1 : end - 3;
+        }
+
+        if (pageIndex > 1) {
+            console.log("执行");
+            $(".pagination").append(`<li data-pageIndex=${pageIndex - 1}><a   aria-label="Previous"><span aria-hidden="true">&laquo;</span>
+            </a></li>`);
+        }
+        //循环遍历页数
+        for (var i = start; i <= end; i++) {
+            if (i == pageIndex) {
+                //当前页
+                $(".pagination").append(`<li class="active" data-pageIndex=${i}><a >${i}</a></li>`);
+            }
+            else {
+                $(".pagination").append(`<li data-pageIndex=${i}><a >${i}</a></li>`);
+
+
+            }
+        }
+        if (pageIndex < pageCount) {
+            $(".pagination").append(`<li data-pageIndex=${pageIndex + 1}><a aria-label="Next"><span aria-hidden="true">&raquo;</span>
+            </a></li>`);
+        }
+    }
+
+    //[ajax] /role/Add 角色添加
+    function roleAdd() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/role/Add",
+            dataType: "json",
+            data: {
+                rolename: $("#rolename").val(),
+            },
+            success: function (res) {
+
+                //打印返回结果
+                console.log(res);
+
+                if (res.state == 0) {
+                    showTips(res.info, 50, 2, "#e74c3c");
+                    return
+                }
+                //关闭模态框
+                $('#myModal').modal('hide');
+                showTips(res.info, 50, 2, "#8FBC8F");
+
+                //刷新列表
+                setTimeout(function () {
+                    roleSearch(option, Index);
+                }, 2000)
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[ajax] /role/Delete 角色删除
+    function roleDelete() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/role/Delete",
+            dataType: "json",
+            data: { id },
+            success: function (res) {
+                //打印返回结果
+                console.log(res);
+
+                //状态判断
+                if (res.state == 0) {
+                    showTips(res.info, 50, 2, "#e74c3c");
+                    return
+                }
+
+                //成功的
+                showTips(res.info, 50, 2, "#8FBC8F");
+
+
+                //刷新列表
+                setTimeout(function () {
+                    roleSearch(option, Index);
+                }, 2000)
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[ajax] /role/Update 角色修改
+    function roleUpdate(rolename) {
+        console.log(rolename);
+        console.log(id);
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/role/Update",
+            dataType: "json",
+            data: {
+                id,
+                rolename,
+            },
+            success: function (res) {
+
+                //打印返回结果
+                console.log(res);
+
+                if (res.state == 0) {
+                    showTips(res.info, 50, 2, "#e74c3c");
+                    return
+                }
+
+                //关闭模态框
+                $('#myModal').modal('hide');
+                showTips(res.info, 50, 2, "#8FBC8F");
+                $('.btn-primary').text("提交");
+
+                //刷新列表
+                setTimeout(function () {
+                    roleSearch(option, Index);
+                }, 2000);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[ajax] /role/SetUrl角色修改
+    function roleSetUrl(url) {
+        console.log(id);
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/Role/UpdateUrl",
+            dataType: "json",
+            data: { id, url},
+            success: function (res) {
+                //打印返回结果
+                console.log(res);
+                if (res.state == 0) {
+                    showTips(res.info, 50, 2, "#e74c3c");
+                    return
+                }
+                //关闭模态框
+                $('#setRoles').modal('hide');
+                showTips(res.info, 50, 2, "#8FBC8F");
+                $('#setRoles .btn-primary').text("提交");
+                //刷新列表
+                setTimeout(function () {
+                    roleSearch(option, Index);
+                }, 2000);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[ajax] /role/Search 角色搜索
+    function roleSearch(option, pageIndex) {
+        console.log(pageIndex);
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:60440/role/Search",
+            dataType: "json",
+            data: { option, value, pageIndex },
+            success: function (res) {
+                //打印返回结果
+                console.log(res);
+                var list = res.list;
+                var pageIndex = res.pageIndex;
+                var pageCount = res.pageCount;
+                if (list.length > 0) {
+                    showTips("表格已刷新", 50, 2, "#8FBC8F");
+                } else {
+                    showTips("没有查询到数据", 50, 2, "#e74c3c");
+                }
+                $roleList = list;
+                //列表渲染
+                listRendering();
+                pagination(pageIndex, pageCount);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    //[ajax] role/Info 角色个人信息
+    function roleInfo() {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:60440/role/Info",
+            dataType: "json",
+            data: { id },
+            success: function (res) {
+
+                //打印返回结果
+                console.log(res);
+
+                //初始化模态框中的数据
+                $("#rolename").val(res.rolename);
+
+                //显示模态框
+                $('#myModal').modal('show');
+                $('.btn-primary').text("修改");
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    //[ajax] role/Url 角色url
+    function roleUrl() {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:60440/role/Info",
+            dataType: "json",
+            data: { id },
+            success: function (res) {
+                //打印返回结果
+                console.log(res);
+                $("#setRoles input[type=checkbox]").prop("checked",false);
+                if (res.url) {
+                    $("#setRoles input[type=checkbox]").each(function () {
+                        if (res.url.match($(this).val())) {
+                            $(this).prop("checked", true);
+                        }
+                    })
+                }
+                //初始化模态框中的数据
+                //显示模态框
+                $("#setRoles .modal-title").text(res.rolename+"权限");
+                $('#setRoles').modal('show');
+                $('#setRoles .btn-primary').text("修改");
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    roleSearch(option, Index);
+
+
+</script>
+<!---Modal end -->
